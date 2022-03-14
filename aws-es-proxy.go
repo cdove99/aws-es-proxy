@@ -413,7 +413,7 @@ func (p *proxy) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 // Recent versions of ES/Kibana require
 // "content-type: application/json" and
-// either "kbn-version" or "kbn-xsrf"
+// either "kbn-version" or "osd-xsrf"
 // headers to exist in the request.
 // If missing requests fails.
 func addHeaders(src, dest http.Header) {
@@ -425,13 +425,15 @@ func addHeaders(src, dest http.Header) {
 		dest.Add("Content-Type", val[0])
 	}
 
-	if val, ok := src["Kbn-Xsrf"]; ok {
-		dest.Add("Kbn-Xsrf", val[0])
+	if val, ok := src["osd-xsrf"]; ok {
+		dest.Add("osd-xsrf", val[0])
 	}
 
 	if val, ok := src["Authorization"]; ok {
 		dest.Add("Authorization", val[0])
 	}
+	
+
 }
 
 // Signer.Sign requires a "seekable" body to sum body's sha256
